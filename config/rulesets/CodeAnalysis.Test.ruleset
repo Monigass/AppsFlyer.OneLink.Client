@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="TestRuleset" Description="Rules for testing projects" ToolsVersion="17.0">
+  <Include Path="CodeAnalysis.ruleset" Action="Default" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <!-- Disable IdentifiersShouldNotContainUnderscores rule -->
+    <Rule Id="CA1707" Action="None" />
+    <!-- Disable DoNotDirectlyAwaitATaskAnalyzer rule -->
+    <Rule Id="CA2007" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Stylecop.Analyzers" RuleNamespace="Stylecop.Analyzers">
+    <!-- Disable MissingXmlCommentForPubliclyVisibleTypeOrMember rule -->
+    <Rule Id="CS1591" Action="None" />
+    <!-- Disable XmlCommentAnalysisDisabled rule -->
+    <Rule Id="SA0001" Action="None" />
+    <Rule Id="SA1010" Action="None" />
+    <!-- Disable EnableXmlDocumentationOutput rule -->
+    <Rule Id="SA1652" Action="None" />
+  </Rules>
+</RuleSet>

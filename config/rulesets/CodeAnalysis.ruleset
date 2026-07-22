@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="CodeRuleset" Description="Rules for coding projects" ToolsVersion="17.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1010" Action="Hidden" />
+  </Rules>
+  <Rules AnalyzerId="Stylecop.Analyzers" RuleNamespace="Stylecop.Analyzers">
+    <Rule Id="SA1600" Action="None" />
+  </Rules>
+</RuleSet>

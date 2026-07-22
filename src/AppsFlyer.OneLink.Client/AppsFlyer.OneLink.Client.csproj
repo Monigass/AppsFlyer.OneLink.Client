@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+    <RootDir>.\..\..</RootDir>
+    <SolutionDir>$(RootDir)</SolutionDir>
+    <ConfigDir>$(RootDir)\config</ConfigDir>
+		<Description>Strongly typed .NET client for the AppsFlyer OneLink API generated from OpenAPI specifications using NSwag.</Description>
+  </PropertyGroup>
+
+	<Import Project="$(ConfigDir)\properties\AssemblyCommon.props" />
+
+	<ItemGroup>
+    <OpenApiReference Include="Resources\AppsFlyer.OneLink.v2.openapi.yaml" CodeGenerator="NSwagCSharp" Namespace="AppsFlyer.OneLink.Client" ClassName="AppsFlyerClient">
+      <Options>/PropertyNameGeneratorType:NSwag.CodeGeneration.CSharp:NSwag.CodeGeneration.CSharp.SnakeCasePropertyNameGenerator /EnumNameGeneratorType:NSwag.CodeGeneration.CSharp:NSwag.CodeGeneration.CSharp.SnakeCaseEnumNameGenerator /JsonLibrary:SystemTextJson /UseBaseUrl:false /GenerateClientInterfaces:true /GenerateExceptionClasses:true</Options>
+    </OpenApiReference>
+  </ItemGroup>
+</Project>

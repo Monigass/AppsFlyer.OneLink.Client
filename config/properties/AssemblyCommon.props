@@ -1,0 +1,95 @@
+<Project>
+  <PropertyGroup>
+    <Company>Monigass</Company>
+    <Copyright>Copyright (c) Monigass</Copyright>
+    <Authors>Monigass</Authors>
+    <Product>AppsFlyer.OneLink.Client</Product>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>openapi;swagger;nswag;sdk;client-generator</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NeutralLanguage>en</NeutralLanguage>
+    <CLSCompliant>true</CLSCompliant>
+    <Deterministic>true</Deterministic>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+	
+  <PropertyGroup>
+    <AllowedReferenceRelatedFileExtensions>.pdb;.xml</AllowedReferenceRelatedFileExtensions>
+    <CodeAnalysisRuleSet>$(ConfigDir)\rulesets\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisOverrideRuleVisibilities>true</CodeAnalysisOverrideRuleVisibilities>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<IsPackable>true</IsPackable>
+    <IsTestProject>false</IsTestProject>
+    <SignAssembly>true</SignAssembly>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <WarningsNotAsErrors>NU1605;NU1902;NU1903;NU1904;ASP0026;</WarningsNotAsErrors>
+    <NoWarn>$(NoWarn);NU1605;NU1902;NU1903;NU1904;ASP0026;</NoWarn>
+    <RestoreNoWarn>$(RestoreNoWarn);NU1605;NU1904;</RestoreNoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<AssemblyVersion>2.1.1.0</AssemblyVersion>
+    <FileVersion>2.1.1.0</FileVersion>
+    <VersionPrefix>2.1.1</VersionPrefix>
+    <ArtifactsDir>..\..\artifacts</ArtifactsDir>
+    <PackageOutputPath>$(ArtifactsDir)</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	 <AssemblyOriginatorKeyFile>$(ConfigDir)\AppsFlyer.OneLink.Client.Key.snk</AssemblyOriginatorKeyFile>
+    <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(ConfigDir)\stylecop.json" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="$(SolutionDir)\src\assets\logo.png" Link="Resources\logo.png">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSwag.ApiDescription.Client">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime;build;native;contentfiles;analyzers;buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NSwag.MSBuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime;build;native;contentfiles;analyzers;buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="CleanArtifacts" AfterTargets="Clean">
+    <ItemGroup>
+      <FilesToDelete Include="$(ArtifactsDir)\$(MSBuildProjectName)*.nupkg" />
+      <FilesToDelete Include="$(ArtifactsDir)\$(MSBuildProjectName)*.snupkg" />
+    </ItemGroup>
+
+    <Delete Files="@(FilesToDelete)" ContinueOnError="true" />
+  </Target>
+</Project>

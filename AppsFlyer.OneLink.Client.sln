@@ -1,0 +1,50 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11919.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FF935B15-A0B6-42C7-B016-D9D0A92B369A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppsFlyer.OneLink.Client", "src\AppsFlyer.OneLink.Client\AppsFlyer.OneLink.Client.csproj", "{7A941B3D-1D38-48C2-8B55-D88723423F93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF2B73BB-BB5F-4057-A4D5-9F87C69142AF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{60A1A7FB-3A4D-4218-8BD8-A9D2F5DB1674}"
+	ProjectSection(SolutionItems) = preProject
+		config\properties\AssemblyCommon.props = config\properties\AssemblyCommon.props
+		Directory.Packages.props = Directory.Packages.props
+		NuGet.Config = NuGet.Config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rulesets", "rulesets", "{9DDE2BD0-504A-4EE5-A2E5-A3BB7038DDCF}"
+	ProjectSection(SolutionItems) = preProject
+		config\rulesets\CodeAnalysis.ruleset = config\rulesets\CodeAnalysis.ruleset
+		config\rulesets\CodeAnalysis.Test.ruleset = config\rulesets\CodeAnalysis.Test.ruleset
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A941B3D-1D38-48C2-8B55-D88723423F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A941B3D-1D38-48C2-8B55-D88723423F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A941B3D-1D38-48C2-8B55-D88723423F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A941B3D-1D38-48C2-8B55-D88723423F93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A941B3D-1D38-48C2-8B55-D88723423F93} = {FF935B15-A0B6-42C7-B016-D9D0A92B369A}
+		{60A1A7FB-3A4D-4218-8BD8-A9D2F5DB1674} = {AF2B73BB-BB5F-4057-A4D5-9F87C69142AF}
+		{9DDE2BD0-504A-4EE5-A2E5-A3BB7038DDCF} = {AF2B73BB-BB5F-4057-A4D5-9F87C69142AF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AFDCFCEC-6F25-4CD3-99AF-1EB5A7C57FF3}
+	EndGlobalSection
+EndGlobal
