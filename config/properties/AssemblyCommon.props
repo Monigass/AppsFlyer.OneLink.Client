@@ -74,11 +74,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSwag.ApiDescription.Client">
+    <PackageReference Include="Monigass.NSwag.ApiDescription.Client">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime;build;native;contentfiles;analyzers;buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NSwag.MSBuild">
+    <PackageReference Include="Monigass.NSwag.MSBuild">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime;build;native;contentfiles;analyzers;buildtransitive</IncludeAssets>
     </PackageReference>

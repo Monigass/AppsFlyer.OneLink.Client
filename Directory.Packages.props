@@ -14,7 +14,7 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
     <!-- NSwag -->
-    <PackageVersion Include="NSwag.ApiDescription.Client" Version="14.7.1-dev-20260718-0756" />
-    <PackageVersion Include="NSwag.MSBuild" Version="14.7.1-dev-20260718-0756" />
+    <PackageVersion Include="Monigass.NSwag.ApiDescription.Client" Version="14.7.1-dev-20260722-1959" />
+    <PackageVersion Include="Monigass.NSwag.MSBuild" Version="14.7.1-dev-20260722-1959" />
   </ItemGroup>
 </Project>
