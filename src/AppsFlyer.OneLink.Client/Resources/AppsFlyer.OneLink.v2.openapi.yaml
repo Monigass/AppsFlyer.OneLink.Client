@@ -198,6 +198,7 @@ components:
 
     CreateLinkRequest:
       type: object
+      additionalProperties: false
       required:
         - data
       properties:
@@ -219,6 +220,7 @@ components:
 
     UpdateLinkRequest:
       type: object
+      additionalProperties: false
       required:
         - data
       properties:
@@ -233,6 +235,7 @@ components:
 
     ShortLinkResponse:
       type: object
+      additionalProperties: false
       properties:
         shortlink_url:
           type: string
@@ -240,6 +243,7 @@ components:
 
     GetLinkResponse:
       type: object
+      additionalProperties: false
       properties:
         shortlink_id:
           type: string
@@ -256,6 +260,7 @@ components:
 
     QuotaResponse:
       type: object
+      additionalProperties: false
       properties:
         total_quota:
           type: integer

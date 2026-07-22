@@ -1,10 +1,6 @@
 # AppsFlyer.OneLink.Client
 
-A reusable OpenAPI client generation framework for .NET built on top of NSwag.
-
-This project automates the generation of strongly typed .NET SDKs from OpenAPI specifications.
-
-The repository is provider-agnostic and can generate clients for any API that exposes an OpenAPI specification.
+A strongly typed .NET client for the AppsFlyer OneLink API, generated from its OpenAPI specification with NSwag.
 
 ## Disclaimer
 
@@ -81,21 +77,18 @@ dotnet add package AppsFlyer.OneLink.Client
 ```json
 {
   "AppsFlyer": {
-    "BaseUrl": "https://onelink.appsflyer.com",
-    "ApiToken": "<your-api-token>",
-    "OneLinkId": "<your-onelink-id>"
+    "BaseAddress": "https://onelink.appsflyer.com/",
+    "OneLinkApiToken": "<your-api-token>"
   }
 }
 ```
 
-### Options Class
+### Built-in Options Class
 
 ```csharp
-public sealed class AppsFlyerOptions
+public sealed class AppsFlyerOneLinkClientOptions
 {
-    public string BaseUrl { get; set; } = default!;
-    public string ApiToken { get; set; } = default!;
-    public string OneLinkId { get; set; } = default!;
+    public Uri BaseAddress { get; set; }
 }
 ```
 
@@ -104,11 +97,64 @@ public sealed class AppsFlyerOptions
 ## Dependency Injection
 
 ```csharp
-builder.Services.Configure<AppsFlyerOptions>(
+using AppsFlyer.OneLink.Client.DependencyInjection;
+
+builder.Services.AddAppsFlyerOneLinkClient(options =>
+{
+    options.BaseAddress = new Uri("https://onelink.appsflyer.com/");
+});
+```
+
+The client can then be injected into any registered service:
+
+```csharp
+public sealed class LinkService
+{
+    private readonly IAppsFlyerClient client;
+
+    public LinkService(IAppsFlyerClient client)
+    {
+        this.client = client;
+    }
+}
+```
+
+### Custom HTTP Client Configuration
+
+Use the generic registration when the HTTP client must be configured from another service, such as options loaded from `appsettings.json`:
+
+```csharp
+using System.Net.Http.Headers;
+using System.Net.Mime;
+using AppsFlyer.OneLink.Client;
+using AppsFlyer.OneLink.Client.DependencyInjection;
+using Microsoft.Extensions.Options;
+
+public sealed class DeepLinkOptions
+{
+    public Uri BaseAddress { get; set; }
+    public string OneLinkApiToken { get; set; }
+}
+
+builder.Services.Configure<DeepLinkOptions>(
     builder.Configuration.GetSection("AppsFlyer"));
 
-builder.Services.AddHttpClient<IAppsFlyerClient, AppsFlyerClient>();
+builder.Services.AddAppsFlyerClient<IAppsFlyerClient, AppsFlyerClient>(
+    (provider, client) =>
+    {
+        var options = provider
+            .GetRequiredService<IOptions<DeepLinkOptions>>()
+            .Value;
+
+        client.BaseAddress = options.BaseAddress;
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", options.OneLinkApiToken);
+        client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+    });
 ```
+
+The typed client is registered through `HttpClientFactory` and includes transient HTTP error retries.
 
 ---
 
@@ -128,7 +174,7 @@ var request = new CreateLinkRequest
     }
 };
 
-var response = await appsFlyerClient.CreateLinkAsync(request);
+var response = await appsFlyerClient.CreateOneLinkAsync(request);
 
 Console.WriteLine(response.ShortlinkUrl);
 ```
@@ -144,7 +190,7 @@ https://myapp.onelink.me/abc123/qwer987
 ## Retrieve Link
 
 ```csharp
-var link = await appsFlyerClient.GetLinkAsync(
+var link = await appsFlyerClient.GetOneLinkAsync(
     oneLinkId,
     shortLinkId);
 
@@ -166,7 +212,7 @@ var request = new UpdateLinkRequest
     }
 };
 
-var response = await appsFlyerClient.UpdateLinkAsync(
+var response = await appsFlyerClient.UpdateOneLinkAsync(
     oneLinkId,
     shortLinkId,
     request);
@@ -177,7 +223,7 @@ var response = await appsFlyerClient.UpdateLinkAsync(
 ## Delete Link
 
 ```csharp
-await appsFlyerClient.DeleteLinkAsync(
+await appsFlyerClient.DeleteOneLinkAsync(
     oneLinkId,
     shortLinkId);
 ```
@@ -208,41 +254,7 @@ Console.WriteLine(quota.RemainingQuota);
 
 ---
 
-# API Interface
-
-```csharp
-public interface IAppsFlyerClient
-{
-    Task<ShortLinkResponse> CreateLinkAsync(
-        CreateLinkRequest request,
-        CancellationToken cancellationToken = default);
-
-    Task<GetLinkResponse> GetLinkAsync(
-        string oneLinkId,
-        string shortLinkId,
-        CancellationToken cancellationToken = default);
-
-    Task<ShortLinkResponse> UpdateLinkAsync(
-        string oneLinkId,
-        string shortLinkId,
-        UpdateLinkRequest request,
-        CancellationToken cancellationToken = default);
-
-    Task DeleteLinkAsync(
-        string oneLinkId,
-        string shortLinkId,
-        CancellationToken cancellationToken = default);
-
-    Task<byte[]> GetQrCodeAsync(
-        string oneLinkId,
-        string shortLinkId,
-        CancellationToken cancellationToken = default);
-
-    Task<QuotaResponse> GetQuotaAsync(
-        string accountId,
-        CancellationToken cancellationToken = default);
-}
-```
+The generated `IAppsFlyerClient` interface is included in the package and is the recommended abstraction to inject into application services.
 
 ---
 
@@ -250,56 +262,34 @@ public interface IAppsFlyerClient
 
 ```text
 AppsFlyer.OneLink.Client
-│
-├── specs
-│   └── AppsFlyer.OneLink.v2.openapi.yaml
-│
 ├── src
-│   ├── Generated
-│   │   └── OneLinkClient.cs
-│   │
-│   ├── Models
-│   │
-│   ├── Options
-│   │
-│   ├── Services
-│   │   └── AppsFlyerClient.cs
-│   │
-│   └── Extensions
-│       └── ServiceCollectionExtensions.cs
-│
-└── tests
-    └── AppsFlyer.OneLink.Client.Tests
+│   └── AppsFlyer.OneLink.Client
+│       ├── AppsFlyer.OneLink.Client.csproj
+│       ├── AppsFlyerClient.cs
+│       ├── IAppsFlyerClient.cs
+│       ├── DependencyInjection
+│       │   ├── AppsFlyerOneLinkClientOptions.cs
+│       │   └── ServiceCollectionExtensions.cs
+│       └── Resources
+│           └── AppsFlyer.OneLink.v2.openapi.yaml
+├── config
+│   ├── properties
+│   │   └── AssemblyCommon.props
+│   └── stylecop.json
+└── README.md
 ```
 
 ---
 
 # Regenerating the Client
 
-Whenever the OneLink OpenAPI specification changes, regenerate the client using NSwag.
+Whenever `src/AppsFlyer.OneLink.Client/Resources/AppsFlyer.OneLink.v2.openapi.yaml` changes, regenerate the client through the project build:
 
 ```bash
-nswag run nswag.json
+dotnet build src/AppsFlyer.OneLink.Client/AppsFlyer.OneLink.Client.csproj
 ```
 
-Example configuration:
-
-```json
-{
-  "runtime": "Net90",
-  "documentGenerator": {
-    "fromDocument": {
-      "url": "./specs/AppsFlyer.OneLink.v2.openapi.yaml"
-    }
-  },
-  "codeGenerators": {
-    "openApiToCSharpClient": {
-      "className": "OneLinkClient",
-      "namespace": "AppsFlyer.OneLink.Client.Generated"
-    }
-  }
-}
-```
+The project uses the `<OpenApiReference>` configured in `src/AppsFlyer.OneLink.Client/AppsFlyer.OneLink.Client.csproj` and the `NSwagCSharp` code generator. Generated files are build artifacts and are not stored as source files in the repository.
 
 ---
 
@@ -316,7 +306,7 @@ IAppsFlyerClient
     ↓
 AppsFlyerClient
     ↓
-NSwag Generated OneLinkClient
+NSwag-generated client
     ↓
 AppsFlyer OneLink API
 ```
