@@ -29,7 +29,7 @@ jobs:
         run: dotnet restore AppsFlyer.OneLink.Client.sln
 
       - name: Build
-        run: dotnet build AppsFlyer.OneLink.Client.sln --configuration Release --no-restore
+        run: dotnet build AppsFlyer.OneLink.Client.sln --configuration Release --no-restore /p:GeneratePackageOnBuild=false
 
       - name: Set package version
         if: github.event_name == 'push'
@@ -40,8 +40,8 @@ jobs:
             "PACKAGE_VERSION_ARG=-p:PackageVersion=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
           else {
-            $suffix = "preview.${{ github.run_number }}"
-            "PACKAGE_VERSION_ARG=-p:VersionSuffix=$suffix" | Out-File -FilePath $env:GITHUB_ENV -Append
+            $version = "1.0.0-preview.${{ github.run_number }}"
+            "PACKAGE_VERSION_ARG=-p:PackageVersion=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
 
       - name: Pack
