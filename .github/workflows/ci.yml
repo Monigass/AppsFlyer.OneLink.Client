@@ -44,7 +44,9 @@ jobs:
           else {
             $latestTag = git tag --sort=-version:refname | Where-Object { $_ -match '^v\d+(\.\d+){2}$' } | Select-Object -First 1
             $baseVersion = if ($latestTag) { $latestTag.TrimStart('v') } else { '1.0.0' }
-            $version = "$baseVersion-preview.${{ github.run_number }}"
+            $parts = $baseVersion.Split('.')
+            $parts[2] = ([int]$parts[2] + 1).ToString()
+            $version = "$($parts -join '.')" + "-preview.${{ github.run_number }}"
             "PACKAGE_VERSION_ARG=-p:PackageVersion=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
 
