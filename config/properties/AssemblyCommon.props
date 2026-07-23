@@ -7,6 +7,10 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>openapi;swagger;nswag;sdk;client-generator</PackageTags>
+
+    <RepositoryUrl>https://github.com/Monigass/AppsFlyer.OneLink.Client</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
